@@ -4,7 +4,7 @@
 	var z_version     = "v1.0";
 	var z_explanation = "Set your filter keywords, separated by whitespace. All search results that lead to a blacklisted domain will be hidden."
 
-	// add listsners.
+	// add listeners.
 	// need three listeners instead of one, because i don't want the button inside the form.
 	// need to manually 'disable' the default action of form-submit -> reloads page, which is unnecessary.
 	document.addEventListener("DOMContentLoaded", restoreOptions);
