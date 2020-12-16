@@ -1,12 +1,12 @@
 # Zensur
 
-This Firefox Addon automatically removes Google search results that lead to undesired domains.  
+This Firefox Addon automatically removes search results that lead to undesired domains.  
 
-Let's say you want to shop less at amazon but you keep being tempted by all the amazon links when you look for stuff online. No more! Simply set your filter to "amazon" and all Google results leading to _amazon.com_, _amazon.de_, or any other _amazon_ domain will be hidden automatically.
+Let's say you want to shop less at amazon but you keep being tempted by all the amazon links when you look for stuff online. No more! Simply set your filter to "amazon" and all search results leading to _amazon.com_, _amazon.de_, or any other _amazon_ domain will be hidden automatically.
 
 ### Roadmap
 This Addon is still in early develoment stages.  
-At this point, the Addon only runs on google, but wider support of search engines is planned.
+At this point, the Addon only runs on google, duckduckgo, and startpage, but wider support of search engines is planned.
 
 ## Installation
 
