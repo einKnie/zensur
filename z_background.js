@@ -2,7 +2,7 @@
 
 (function() {
 
-	const DEBUG = true;
+	const DEBUG = false;
 	var logDebug;
 	if (DEBUG) {
 		logDebug = console.log;
