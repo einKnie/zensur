@@ -1,0 +1,46 @@
+{
+  "manifest_version": 2,
+  "name": "Zensur",
+  "author": "einKnie@gmx.at",
+  "version": "1.0",
+  "description": "Removes unwanted domains from search engine results",
+
+  "applications": {
+    "gecko": {
+      "id": "zensur@einKnie"
+    }
+  },
+
+  "icons": {
+    "48": "icons/icon.png"
+  },
+
+  "browser_action": {
+    "default_icon":  "icons/icon.png",
+    "default_title": "Zensur",
+    "browser_style": true,
+    "default_popup": "popup/popup.html"
+  },
+
+  "permissions": [
+    "storage",
+    "tabs"
+  ],
+
+  "options_ui": {
+    "page": "options/options.html"
+  },
+
+  "background": {
+    "scripts": ["z_background.js"]
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["*://*.google.com/*"],
+      "js": ["z_content.js"]
+    }
+  ]
+
+
+}

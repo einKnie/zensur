@@ -1,0 +1,88 @@
+html, body {
+  background-color: #1f201e;
+  font-family:      sans-serif;
+  color:            #aaaca6;
+  height:           300px;
+  width:            600px;
+  display:          block;
+  margin:           10px auto;
+}
+
+.hidden {
+  display:    none;
+}
+
+p {
+  margin:     5px 10px auto 10px;
+}
+
+#title {
+  display:    block;
+  margin:     10px auto;
+  text-align: center;
+
+}
+
+#titletext {
+  font-size:  larger;
+  display:    block;
+  margin:     10px auto;
+}
+
+#settings {
+  width: 400px;
+	padding: 50px auto;
+}
+
+#sitebuttons {
+  margin: 10px auto;
+}
+
+#filter_entry {
+	margin: 10px auto;
+	border: none;
+	display: block;
+	display-direction: column;
+	padding: 10px auto;
+}
+
+label {
+  margin:     0px 5px;
+}
+
+.content {
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+}
+
+.outer_box {
+  display: flex;
+}
+
+.logo_wrapper {
+  width:  180px;
+  margin: 10px 10px;
+  border: 1px solid #babcb7;
+}
+
+.logo {
+  display:  block;
+  margin:   10px auto;
+}
+
+.apptext {
+  margin:       auto 5px;
+  text-align:   center;
+}
+
+.appversion {
+  margin:       10px 5px auto 5px;
+  text-align:   center;
+}
+
+.saved_text {
+  display:      none;
+  margin:       auto 5px;
+  text-align:   center;
+}
