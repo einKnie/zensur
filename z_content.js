@@ -9,17 +9,11 @@ videoDetector = function() {
 		logDebug = function() { };
 	}
 
-	// supported websites
-	const sites = {
-		GOOGLE:     "google",
-		DDG:        "duckduckgo",
-		STARTPAGE:  "startpage"
-	};
-
 	// 'globals'
 	var g_isSuspended   = false;
 	var g_siteSuspended = false;
 	var g_activeSites   = {};
+	var g_sitename      = "";
 	var g_filter        = "";
 
 	// start script execution
@@ -56,7 +50,7 @@ videoDetector = function() {
 					g_isSuspended = true;
 				}
 
-				logDebug("filter: " +g_filter);
+				logDebug("filter: " + g_filter);
 				resolve("success");
 			}
 
@@ -68,17 +62,48 @@ videoDetector = function() {
 			});
 		}
 
+
 		function initCensor() {
 
 			if (g_siteSuspended || g_isSuspended) {
 				// do nothing
+				logDebug("doing nothing");
 				return;
 			}
 
-			if (document.querySelector('#rso') == null) {
+			filter();
+		}
+
+		function filter() {
+			var searchresults = "";
+			var link = "";
+			var parent = "";
+
+			switch(g_sitename) {
+				case 'google':
+					searchresults = '#rso';
+					link = 'a';
+					parent = '.rc';
+					break;
+
+				case 'duckduckgo':
+					searchresults = '#links';
+					link = 'a.result__url';
+					parent = 'div.result';
+					break;
+
+				case 'startpage':
+					searchresults = 'section.w-gl';
+					link = 'a.result-link';
+					parent = 'div.w-gl__result';
+					break;
+				default: break;
+			}
+
+			if (document.querySelector(searchresults) == null) {
 				logDebug("No search results found");
 			} else {
-				var results = document.querySelector('#rso').querySelectorAll('a');
+				var results = document.querySelector(searchresults).querySelectorAll(link);
 				logDebug(results);
 				var filter = getFilter();
 				var re = new RegExp('www\\.' + filter + '.*', 'g');
@@ -88,14 +113,14 @@ videoDetector = function() {
 					if (res.href.match(re) != null) {
 						logDebug("found offending link");
 						logDebug(res.href);
-						let entry = getAncestor(res, '.rc');
+						let entry = getAncestor(res, parent);
 						logDebug("hiding entry");
 						if (entry != null) entry.hidden = true;
 					}
 				}
 			}
-
 		}
+
 
 		function getAncestor(elem, selector) {
 			for ( ; elem && elem !== document; elem = elem.parentNode ) {
@@ -103,6 +128,7 @@ videoDetector = function() {
 			}
 			return null;
 		}
+
 
 		function getFilter() {
 			// contruct a filter string from filter keywords
@@ -119,21 +145,16 @@ videoDetector = function() {
 			return filter;
 		}
 
-
-		/*
-		* getSite(string)
-		* Return the name of the site, or 'other' if the site is not supported
-		*/
-		function getSite() {
+		function isSupportedSite() {
 			let url = document.URL;
-			for (let site in sites) {
-				if (sites.hasOwnProperty(site)) {
-					if (url.includes(sites[site])) {
-						return sites[site];
-					}
+			logDebug(g_activeSites);
+			for (let site in g_activeSites) {
+				if (g_activeSites.hasOwnProperty(site) && url.includes(site)) {
+					logDebug("filtering supported");
+					return true;
 				}
 			}
-			return "other";
+			return false;
 		}
 
 
@@ -171,9 +192,15 @@ videoDetector = function() {
 		* Check if current site is suspended
 		*/
 		function checkSiteStatus(sites) {
+			if (!isSupportedSite()) {
+				g_siteSuspended = true;
+				return;
+			}
+
 			Object.getOwnPropertyNames(sites).forEach(function(val) {
 				if (document.URL.includes(val)) {
 					g_siteSuspended = !sites[val];
+					g_sitename = val;
 				}
 			});
 		}

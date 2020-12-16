@@ -10,6 +10,13 @@
 		logDebug = function () { };
 	}
 
+	// supported websites
+	const sites = {
+		GOOGLE:     "google",
+		DDG:        "duckduckgo",
+		STARTPAGE:  "startpage"
+	};
+
 	// base settings
 	const g_suspendedDefault = false;
 	const g_filterDefault = "";
@@ -25,6 +32,7 @@
 	getSupportedSites()
 	.then(initSettings, onError);
 
+
 	/*
 	* getSupportedSites()
 	* Retrieve the supported domains from manifest.json
@@ -32,20 +40,12 @@
 	*/
 	function getSupportedSites() {
 		return new Promise((resolve, reject) => {
-			let manifest = browser.runtime.getManifest();
-			manifest.content_scripts.forEach(function(obj) {
-				if (obj.matches != undefined) {
-					for (let site in obj.matches) {
-						if (obj.matches.hasOwnProperty(site)) {
-							let sitename = obj.matches[site].replace(/^\*:\/\/\*\.(\w+\.\w+)[\*\/]*$/g, '$1');
-							g_activeSites[sitename] = true;
-						}
-					}
-					resolve("yay");
-				} else {
-					reject("Failed to find matches");
+			for (let site in sites) {
+				if (sites.hasOwnProperty(site)) {
+					g_activeSites[sites[site]] = true;
 				}
-			});
+			}
+			resolve("yay");
 		});
 	}
 
@@ -69,6 +69,7 @@
 	function onError(e) {
 		console.log("error: " + e);
 	}
+
 
 	/*
 	* handleMessage()
