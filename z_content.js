@@ -1,4 +1,3 @@
-// Content script runs on supported sites and watches video player for changes
 
 videoDetector = function() {
 
@@ -12,21 +11,18 @@ videoDetector = function() {
 
 	// supported websites
 	const sites = {
-		GOOGLE:  "google",
-		DDG:     "duckduckgo",
-		STARTPAGE: "startpage"
+		GOOGLE:     "google",
+		DDG:        "duckduckgo",
+		STARTPAGE:  "startpage"
 	};
 
-
 	// 'globals'
-	// these could well be addon-global. maybe turn them into a 'config' module?
 	var g_isSuspended   = false;
 	var g_siteSuspended = false;
 	var g_activeSites   = {};
-	var g_filter				= "";
+	var g_filter        = "";
 
 	// start script execution
-	window.addEventListener("DOMContentLoaded", loadedHdl);
 	init();
 
 	/*
@@ -36,7 +32,6 @@ videoDetector = function() {
 	function init() {
 		logDebug("Starting content script");
 		browser.storage.onChanged.addListener(onSettingChanged);
-		// need to make sure that settings are applied prior to initializing player
 		initSettings()
 		.then(initCensor);
 	}
@@ -52,7 +47,7 @@ videoDetector = function() {
 		// before doing other init stuff
 		return new Promise((resolve) => {
 			function applySetting(pref) {
-				g_filter = pref.filter 					|| g_filter;
+				g_filter      = pref.filter     || g_filter;
 				g_isSuspended = pref.suspended  || g_isSuspended;
 				g_activeSites = pref.sites      || g_activeSites;
 				checkSiteStatus(g_activeSites);
@@ -60,6 +55,8 @@ videoDetector = function() {
 				if (g_filter == "") {
 					g_isSuspended = true;
 				}
+
+				logDebug("filter: " +g_filter);
 				resolve("success");
 			}
 
@@ -111,7 +108,6 @@ videoDetector = function() {
 			// contruct a filter string from filter keywords
 			// like (amazon)|(zalando)|(other filter)
 
-			// var input = ['amazon', 'zalando'];
 			var input = g_filter.split(' ');
 			var filter = ""
 			for (let i = 0; i < input.length; i++) {
@@ -180,10 +176,6 @@ videoDetector = function() {
 					g_siteSuspended = !sites[val];
 				}
 			});
-		}
-
-		function loadedHdl() {
-			logDebug("site loaded/reloaded");
 		}
 
 	}();

@@ -1,7 +1,7 @@
 // options script
 (function() {
 	var z_description = "Customize your censoring";
-	var z_version = "v1.0";
+	var z_version     = "v1.0";
 	var z_explanation = "Set your filter keywords, separated by whitespace. All search results that lead to a blacklisted domain will be hidden."
 
 	// add listsners.
@@ -92,8 +92,8 @@
 					entry_div.querySelector('input[id="filter"]').value = result.filter;
 				} else {
 					var entry = document.createElement("input");
-					entry.type = "text";
-					entry.id = "filter";
+					entry.type  = "text";
+					entry.id    = "filter";
 					entry.value = result.filter;
 
 					var entry_label = document.createElement("label");

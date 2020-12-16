@@ -1,41 +1,41 @@
 html, body {
-  background-color: #1f201e;
-  font-family:      sans-serif;
-  color:            #aaaca6;
-  height:           300px;
-  width:            600px;
-  display:          block;
-  margin:           10px auto;
+	background-color: #1f201e;
+	font-family:      sans-serif;
+	color:            #aaaca6;
+	height:           300px;
+	width:            600px;
+	display:          block;
+	margin:           10px auto;
 }
 
 .hidden {
-  display:    none;
+	display:    none;
 }
 
 p {
-  margin:     5px 10px auto 10px;
+	margin:     5px 10px auto 10px;
 }
 
 #title {
-  display:    block;
-  margin:     10px auto;
-  text-align: center;
+	display:    block;
+	margin:     10px auto;
+	text-align: center;
 
 }
 
 #titletext {
-  font-size:  larger;
-  display:    block;
-  margin:     10px auto;
+	font-size:  larger;
+	display:    block;
+	margin:     10px auto;
 }
 
 #settings {
-  width: 400px;
+	width: 400px;
 	padding: 50px auto;
 }
 
 #sitebuttons {
-  margin: 10px auto;
+	margin: 10px auto;
 }
 
 #filter_entry {
@@ -47,42 +47,42 @@ p {
 }
 
 label {
-  margin:     0px 5px;
+	margin:     0px 5px;
 }
 
 .content {
-  padding: 0 18px;
-  display: none;
-  overflow: hidden;
+	padding: 0 18px;
+	display: none;
+	overflow: hidden;
 }
 
 .outer_box {
-  display: flex;
+	display: flex;
 }
 
 .logo_wrapper {
-  width:  180px;
-  margin: 10px 10px;
-  border: 1px solid #babcb7;
+	width:  180px;
+	margin: 10px 10px;
+	border: 1px solid #babcb7;
 }
 
 .logo {
-  display:  block;
-  margin:   10px auto;
+	display:  block;
+	margin:   10px auto;
 }
 
 .apptext {
-  margin:       auto 5px;
-  text-align:   center;
+	margin:       auto 5px;
+	text-align:   center;
 }
 
 .appversion {
-  margin:       10px 5px auto 5px;
-  text-align:   center;
+	margin:       10px 5px auto 5px;
+	text-align:   center;
 }
 
 .saved_text {
-  display:      none;
-  margin:       auto 5px;
-  text-align:   center;
+	display:      none;
+	margin:       auto 5px;
+	text-align:   center;
 }
