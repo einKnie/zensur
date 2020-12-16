@@ -66,7 +66,6 @@ videoDetector = function() {
 		function initCensor() {
 
 			if (g_siteSuspended || g_isSuspended) {
-				// do nothing
 				logDebug("doing nothing");
 				return;
 			}
@@ -81,20 +80,20 @@ videoDetector = function() {
 
 			switch(g_sitename) {
 				case 'google':
-					searchresults = '#rso';
-					link = 'a';
+					searchresults = 'div#rso';
+					link = 'div.yuRUbf > a';
 					parent = '.rc';
 					break;
 
 				case 'duckduckgo':
-					searchresults = '#links';
+					searchresults = 'div#links';
 					link = 'a.result__url';
 					parent = 'div.result';
 					break;
 
 				case 'startpage':
 					searchresults = 'section.w-gl';
-					link = 'a.result-link';
+					link = 'a.w-gl__result-url';
 					parent = 'div.w-gl__result';
 					break;
 				default: break;
@@ -105,6 +104,11 @@ videoDetector = function() {
 			} else {
 				var results = document.querySelector(searchresults).querySelectorAll(link);
 				logDebug(results);
+
+				if (results.length == 0) {
+					logDebug("no links found. retrying in a bit");
+					setTimeout(initCensor, 200);
+				}
 				var filter = getFilter();
 				var re = new RegExp('www\\.' + filter + '.*', 'g');
 
