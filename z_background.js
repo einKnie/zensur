@@ -1,5 +1,3 @@
-// background script for video-detect extension
-
 (function() {
 
 	const DEBUG = false;

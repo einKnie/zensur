@@ -1,5 +1,5 @@
 
-videoDetector = function() {
+zensur = function() {
 
 	const DEBUG = false;
 	var logDebug;
