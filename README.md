@@ -6,13 +6,14 @@ Let's say you want to shop less at amazon but you keep being tempted by all the 
 
 ### Roadmap
 This Addon is still in early develoment stages.  
-At this point, the Addon only runs on google, duckduckgo, and startpage, but wider support of search engines is planned.
+At this point, the Addon runs on google, duckduckgo, ecosia, and startpage, but wider support of search engines is planned.
+Text search is filtered on all supported search engines, image search filtering is only supported on google so far.
 
 ## Installation
 
 #### The Easy Way
 
-not yet
+[Get it on the Firefox Addons Page](https://addons.mozilla.org/de/firefox/addon/zensur/)
 
 #### Manual Install Instructions
 To install as a temporary Firefox extension:

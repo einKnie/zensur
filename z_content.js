@@ -9,6 +9,11 @@ zensur = function() {
 		logDebug = function() { };
 	}
 
+	const type = {
+		TXT: 'text',
+		IMG: 'image'
+	};
+
 	// 'globals'
 	var g_isSuspended   = false;
 	var g_siteSuspended = false;
@@ -70,59 +75,106 @@ zensur = function() {
 				return;
 			}
 
-			filter();
-		}
-
-		function filter() {
-			var searchresults = "";
-			var link = "";
-			var parent = "";
+			var searchresults = {};
+			var link = {};
+			var parent = {};
 
 			switch(g_sitename) {
 				case 'google':
-					searchresults = 'div#rso';
-					link = 'div.yuRUbf > a';
-					parent = '.rc';
+					searchresults[type.TXT] = 'div#rso';
+					searchresults[type.IMG] = 'div.islrc';
+					link[type.TXT] = 'div.yuRUbf > a';
+					link[type.IMG] = 'a[href]';
+					parent[type.TXT] = '.rc';
+					parent[type.IMG] = 'div.isv-r';
 					break;
 
 				case 'duckduckgo':
-					searchresults = 'div#links';
-					link = 'a.result__url';
-					parent = 'div.result';
+					searchresults[type.TXT] = 'div#links';
+					searchresults[type.IMG] = 'div.zci__main';
+					link[type.TXT] = 'a.result__url';
+					link[type.IMG] = 'a[href]';
+					parent[type.TXT] = 'div.result';
+					parent[type.IMG] = 'div.title';
 					break;
 
 				case 'startpage':
-					searchresults = 'section.w-gl';
-					link = 'a.w-gl__result-url';
-					parent = 'div.w-gl__result';
+					searchresults[type.TXT] = 'section.w-gl';
+					searchresults[type.IMG] = 'section.w-gl';
+					link[type.TXT] = 'a.w-gl__result-url';
+					link[type.IMG] = 'a.w-gl__result-url';
+					parent[type.TXT] = 'div.w-gl__result';
+					parent[type.IMG] = 'div.w-gl__result';
+					break;
+
+				case 'ecosia':
+					searchresults[type.TXT] = 'div.card-desktop';
+					searchresults[type.IMG] = '';
+					link[type.TXT] = 'a.result-url';
+					link[type.IMG] = '';
+					parent[type.TXT] = 'div.result';
+					parent[type.IMG] = '';
 					break;
 				default: break;
 			}
 
-			if (document.querySelector(searchresults) == null) {
-				logDebug("No search results found");
-			} else {
-				var results = document.querySelector(searchresults).querySelectorAll(link);
-				logDebug(results);
+			logDebug("starting filter");
+			if (!filter(searchresults, link, parent)) {
+				logDebug("error: failed to find search results");
+			}
+		}
 
-				if (results.length == 0) {
-					logDebug("no links found. retrying in a bit");
-					setTimeout(initCensor, 200);
-				}
-				var filter = getFilter();
-				var re = new RegExp('www\\.' + filter + '.*', 'g');
 
-				// check if offending sites and remove
-				for (let res of results) {
-					if (res.href.match(re) != null) {
-						logDebug("found offending link");
-						logDebug(res.href);
-						let entry = getAncestor(res, parent);
-						logDebug("hiding entry");
-						if (entry != null) entry.hidden = true;
+		function filter(collection, link, container) {
+			var found_smth = false;
+
+			for (let t in type) {
+				if (!type.hasOwnProperty(t)) continue;
+
+				logDebug(`checking ${type[t]} search`);
+				if (document.querySelector(collection[type[t]]) == null) {
+					logDebug("Result collection not found");
+					continue;
+				} else {
+					for (let c of document.querySelectorAll(collection[type[t]])) {
+						logDebug(c);
+						let results = c.querySelectorAll(link[type[t]]);
+						logDebug(results);
+
+						if (results.length == 0) {
+							logDebug("no search results found in container");
+							continue;
+						} else {
+							found_smth = true;
+						}
+
+						let re = new RegExp('www\\.' + getFilter() + '.*', 'g');
+
+						// check if offending site and remove
+						for (let res of results) {
+							if (res.href.match(re) != null) {
+								logDebug(`found offending link: ${res.href}`);
+								let entry = getAncestor(res, container[type[t]]);
+								if (entry != null) {
+									logDebug("hiding entry");
+									entry.hidden = true;
+									entry.remove();
+								}
+							}
+						}
 					}
+
+					if (!found_smth) {
+						logDebug("no search results found. retrying in a bit");
+						setTimeout(initCensor, 200);
+						return true;
+					}
+
+					logDebug("done");
+					return true;
 				}
 			}
+			return false;
 		}
 
 
@@ -130,6 +182,7 @@ zensur = function() {
 			for ( ; elem && elem !== document; elem = elem.parentNode ) {
 				if ( elem.matches( selector ) ) return elem;
 			}
+			logDebug("did not find ancestor");
 			return null;
 		}
 

@@ -12,7 +12,8 @@
 	const sites = {
 		GOOGLE:     "google",
 		DDG:        "duckduckgo",
-		STARTPAGE:  "startpage"
+		STARTPAGE:  "startpage",
+		ECOSIA:     "ecosia"
 	};
 
 	// base settings
