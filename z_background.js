@@ -24,7 +24,7 @@
 	var g_lastTabId = null;
 	var g_optionsURL = "options/options.html";
 
-	// will be filled at script startup, values are gotten from manifest match strings
+	// will be filled at script startup, values are gotten from sites object
 	var g_activeSites = {};
 
 	browser.runtime.onMessage.addListener(handleMessage);
@@ -34,7 +34,6 @@
 
 	/*
 	* getSupportedSites()
-	* Retrieve the supported domains from manifest.json
 	* (this way, I won't have to add new sites at multiple locations)
 	*/
 	function getSupportedSites() {
@@ -55,6 +54,13 @@
 	function initSettings() {
 		browser.storage.local.get(["suspended", "sites", "filter"])
 		.then(function(pref) {
+			if (pref.sites && (Object.keys(pref.sites).length < Object.keys(g_activeSites).length)) {
+				updateSites(pref.sites);
+			} else {
+				logDebug(pref.sites);
+				logDebug(g_activeSites);
+				logDebug("no site update needed");
+			}
 			let newPrefs = {
 				suspended:  pref.suspended || g_suspendedDefault,
 				sites:      pref.sites     || g_activeSites,
@@ -65,8 +71,20 @@
 	}
 
 
-	function onError(e) {
-		console.log("error: " + e);
+	/*
+	* Update supported sites list
+	*/
+	function updateSites(oldSites) {
+		logDebug(oldSites);
+		for (let site in g_activeSites) {
+			logDebug(`updating ${site}`);
+			if (oldSites.hasOwnProperty(site)) {
+				logDebug(`got old settings for ${site}`);
+			} else {
+				logDebug(`${site} not found in old settings`);
+				oldSites[site] = true;
+			}
+		}
 	}
 
 
@@ -147,4 +165,7 @@
 		}, onError);
 	}
 
+	function onError(e) {
+		console.log("error: " + e);
+	}
 })();
