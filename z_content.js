@@ -109,11 +109,11 @@ zensur = function() {
 
 				case 'ecosia':
 					searchresults[type.TXT] = 'div.card-desktop';
-					searchresults[type.IMG] = '';
+					searchresults[type.IMG] = 'div.image-feed';
 					link[type.TXT] = 'a.result-url';
-					link[type.IMG] = '';
+					link[type.IMG] = 'a[href]';
 					parent[type.TXT] = 'div.result';
-					parent[type.IMG] = '';
+					parent[type.IMG] = 'article.image-feed__item';
 					break;
 				default: break;
 			}
