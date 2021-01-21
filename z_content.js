@@ -85,7 +85,7 @@ zensur = function() {
 					searchresults[type.IMG] = 'div.islrc';
 					link[type.TXT] = 'div.yuRUbf > a';
 					link[type.IMG] = 'a[href]';
-					parent[type.TXT] = '.rc';
+					parent[type.TXT] = 'div.g';
 					parent[type.IMG] = 'div.isv-r';
 					break;
 
